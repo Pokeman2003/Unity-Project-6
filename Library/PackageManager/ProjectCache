@@ -5,7 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637865899017760249
+      ticks: 637866868377041171
     m_Hash: 3619038514
   m_LockFileStatus:
     m_FilePath: C:/Users/VONTHADM/Documents/GitHub/Unity-Project-6/Packages/packages-lock.json
@@ -13,7 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637865899017790260
+      ticks: 637866868377071193
     m_Hash: 600840745
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
