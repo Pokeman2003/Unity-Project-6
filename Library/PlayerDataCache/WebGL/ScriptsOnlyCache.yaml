@@ -918,4 +918,4 @@ ScriptsOnlyBuild:
   platform: 20
   scenePathNames:
   - Assets/Scenes/DefaultArena.unity
-  playerPath: C:/Users/VONTHADM/Documents/GitHub/Unity-Project-5/movementbuild
+  playerPath: C:/Users/VONTHADM/Documents/GitHub/Unity-Project-6/movementbuild
