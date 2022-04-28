@@ -1,14 +1,3 @@
-{
-"instructions_readme": "1) Open Chrome, 2) go to chrome://tracing, 3) click Load, 4) navigate to this file.",
-
-"traceEvents":[
-{ "pid": "BeeDriver", "ph":"M", "name": "process_name", "args": {"name": "BeeDriver"} },
-{ "pid": "BeeDriver", "ph":"M", "name": "process_sort_index", "args": {"sort_index": -2} },
-{ "pid": "BeeDriver", "tid": 1, "ph":"M", "name": "thread_name", "args": {"name": ""} },
-{ "pid": "BeeDriver", "tid": 1,"ts": 56805632067.8,"dur": 0, "ph":"X", "name": "Build ScriptAssemblies"},
-{ "pid": "BeeDriver", "tid": 1,"ts": 56805632624.6,"dur": 44881.4, "ph":"X", "name": "WriteBuildProgramData"},
-{ "pid": "BeeDriver", "tid": 1,"ts": 56805677568.5,"dur": 551183, "ph":"X", "name": "Run Backend"},
-{ "pid": "BeeDriver", "tid": 1,"ts": 56806228766.1,"dur": 20941.9, "ph":"X", "name": "Finish"},
 { "cat":"", "pid":"bee_backend", "tid":0, "ts":0, "ph":"M", "name":"process_name", "args": { "name":"bee_backend" } }
 ,{ "pid":"bee_backend", "tid":0, "ts":56805783975, "dur":3903, "ph":"X", "name": "DriverCheckDagSignatures",  "args": { "durationMS":4, "detail":"" }}
 ,{ "pid":"bee_backend", "tid":0, "ts":56805787879, "dur":21951, "ph":"X", "name": "DriverInitData",  "args": { "durationMS":22, "detail":"" }}
@@ -394,13 +383,4 @@
 ,{ "pid":"bee_backend", "tid":16, "ts":56806136823, "dur":2, "ph":"X", "name": "CheckInputSignature",  "args": { "durationMS":0, "detail":"CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.pdb" }}
 ,{ "pid":"bee_backend", "tid":16, "ts":56806136933, "dur":10649, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "durationMS":11, "detail":"" }}
 ,{ "pid":"bee_backend", "tid":16, "ts":56806147582, "dur":25041, "ph":"X", "name": "Exiting",  "args": { "durationMS":25, "detail":"BuildLoop" }}
-,{}
-
-],
-"meta_datetime": "04/27/2022 20:54:55",
-"meta_command_line": "\"C:\\Program Files\\Unity\\Hub\\Editor\\2021.2.0b9\\Editor\\Unity.exe\" -projectpath C:/Users/VONTHADM/Documents/GitHub/Unity-Project-6 -useHub -hubIPC -cloudEnvironment production -hubSessionId 6102e920-c665-11ec-bdaf-5fbb125d1a38",
-"meta_command_line_args": "C:\\Program Files\\Unity\\Hub\\Editor\\2021.2.0b9\\Editor\\Unity.exe -projectpath C:/Users/VONTHADM/Documents/GitHub/Unity-Project-6 -useHub -hubIPC -cloudEnvironment production -hubSessionId 6102e920-c665-11ec-bdaf-5fbb125d1a38",
-"meta_user_name": "VONTHADM",
-"meta_os_version": "Microsoft Windows NT 10.0.19042.0",
-"meta_cpu_count": "16"
-}
+,
