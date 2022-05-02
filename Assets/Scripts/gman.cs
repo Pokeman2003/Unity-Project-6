@@ -38,7 +38,36 @@ public class gman : MonoBehaviour
     private float playerHPRefill = 3f; //How much health do you regain per second?'
     private bool hUpgrade = false; // Health upgrade. Didn't fit in any other category.
     private bool death = false; //Whether or not you're dead.
+    private bool win = false;
+    private ushort enemeyCount = 0;
+    public Stack<string> countryStack = new Stack<string>();
+    public Queue<string> itemSerialKey = new Queue<string>();
+    public HashSet<string> itemBlargh = new HashSet<string>() { "Proving", "I", "Know", "This", "Already." };
+    
+    public delegate void debugDelegate(string newText);
+    public debugDelegate debug = Print;
 
+    public class itemList<T> where T: class
+    {
+        private T _item;
+
+        public T item
+        {
+            get { return _item; }
+        }
+        
+        public itemList()
+        {
+            Debug.Log("Generic inventory activated.");
+        }
+
+        public void addItem(T newItem)
+        {
+            _item = newItem;
+            Debug.Log("New item added:" + _item);
+        }
+    }
+    
     //Recharge delatimers
     private float fRecharge = 0f; //How much deltatime has it been since jetpack(Flying) usage.
     private float mRecharge = 0f; //How much deltatime has it been since Machinegun usage.
@@ -60,16 +89,6 @@ public class gman : MonoBehaviour
     private int mLoaded = 30; //How many rounds in the magazine now?
     private bool mReloadNow = false;
     private bool mReady = true;
-
-    //Some strings
-    private string HealthLabel = "HEALTH";
-    private string AmmunitionLabel = "AMMUNITION";
-    public float miscDBG1;
-    public float miscDBG2;
-    public float miscDBG3;
-
-    private byte win = 4;
-
 
     //Externals
     public int items //Item counter.
@@ -123,21 +142,31 @@ public class gman : MonoBehaviour
         }
     }
 
+    public ushort enemies
+    {
+        get
+        {
+            return enemeyCount;
+        }
+        set
+        {
+            enemeyCount = value;
+            if (enemeyCount == 0) { win = true; }
+        }
+    }
+
     public void giveItem(byte itemType) //Gives the item of choice. 
-    { 
-        switch(itemType)
+    {
+        printCountry();
+        switch (itemType)
         {
             case 1: // Armor upgrade.
                 if (hUpgrade == false) {
-                    Debug.Log("Armor armed!");
+                    Debug.Log("Armor equipped!");
                     hRecharge = 0f;
                     playerMaxHP = playerMaxHP * 2;
                     hUpgrade = true;
                 }
-                break;
-            case 2: // Rocket upgrade.
-                break;
-            case 3: // Jumpjet upgrade.
                 break;
             case 4: // Jetpack upgrade.
                 if (fUpgrade == false) {
@@ -157,6 +186,31 @@ public class gman : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1.0f;
+        countryStack.Push("Korea");
+        countryStack.Push("Tunisa");
+        countryStack.Push("Arabia");
+        countryStack.Push("Japan");
+
+        itemSerialKey.Enqueue("ROK-2833-548-A7V");
+        itemSerialKey.Enqueue("TAF=48M-BON-37789");
+        itemSerialKey.Enqueue("SAL-FIRE-3939-1278387");
+        itemSerialKey.Enqueue("JSDF-928-0041-NIME-482");
+
+        itemBlargh.Add("NOT!");
+        itemBlargh.Remove("Already.");
+
+        itemList<string> inventoryList = new itemList<string>();
+        inventoryList.addItem("Armor");
+        inventoryList.addItem("Jetpack");
+        inventoryList.addItem("Unknown");
+
+        debug("HELLO");
+        logWithDBG(debug);
+
+        //To say I'm frustrated is an understatement.
+        GameObject player = GameObject.Find("Character_Player");
+        characterplayer playerScript = player.GetComponent<characterplayer>();
+        playerScript.playerJump += HandlePlayerJump;
     }
 
     // Update is called once per frame
@@ -189,6 +243,49 @@ public class gman : MonoBehaviour
         }
     }
 
+    void printCountry()
+    {
+        string currentItem;
+        string nextItem;
+        if (countryStack.Count > 0)
+        {
+            currentItem = countryStack.Pop();
+        } else
+        {
+            currentItem = "None";
+        }
+        if (countryStack.Count > 1)
+        {
+            nextItem = countryStack.Peek();
+        } else
+        {
+            nextItem = "None";
+        }
+
+        string currentSerial;
+        string nextSerial;
+        if (countryStack.Count > 0)
+        {
+            currentSerial = itemSerialKey.Dequeue();
+        }
+        else
+        {
+            currentSerial = "None";
+        }
+        if (countryStack.Count > 1)
+        {
+            nextSerial = itemSerialKey.Peek();
+        }
+        else
+        {
+            nextSerial = "None";
+        }
+
+
+        Debug.Log("This item is from: " + currentItem +". The next item is likely from: " + nextItem);
+        Debug.Log("This item has the serial key: " + currentSerial + ". The next item likely has: " + nextSerial);
+    }
+
     void OnGUI()
     {
         GUI.Box(new Rect(20, 20, 150, 25), "HEALTH:" + (int)playerHP);
@@ -197,12 +294,12 @@ public class gman : MonoBehaviour
         GUI.Box(new Rect(20, 80, 150, 25), "MACHINE GUN:" + mLoaded + "/" + mMax);
         //GUI.Box(new Rect(20, 80, 150, 25), "ROCKETS:" + rLoaded);
 
-        if (hUpgrade == true && fUpgrade == true)
+        if (win)
         {
             GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height - 50, 300, 50), "Congratulations, you win!");
             Time.timeScale = 0.0f;
         } else {
-            GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height - 50, 300, 50), "You have not yet collected all of the powerups.");
+            GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height - 50, 300, 50), "You have not yet killed all of the opponents.");
          }
 
         if (death)
@@ -213,5 +310,20 @@ public class gman : MonoBehaviour
                 utilities.levelRestart();
             }
         }
+    }
+
+    public static void Print(string newText)
+    {
+        Debug.Log("DBG:" + newText);
+    }
+
+    public void logWithDBG(debugDelegate del)
+    {
+        del("Delegating test... c'mon.");
+    }
+
+    public void HandlePlayerJump()
+    {
+        debug("Swooosh!");
     }
 }
